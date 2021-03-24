@@ -9,7 +9,8 @@ import javax.persistence.*;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Type was AUTO
+    @Column(name="id")
     private Long id;
 
     private String firstname;
@@ -25,7 +26,7 @@ public class UserEntity {
     public UserEntity(RegistrationModel registrationModel) {
         this.firstname = registrationModel.getFirstname();
         this.lastname = registrationModel.getLastname();
-        this.birthday = registrationModel.getLastname();
+        this.birthday = registrationModel.getBirthday();
         this.email = registrationModel.getEmail();
         this.password = registrationModel.getPassword();
     }

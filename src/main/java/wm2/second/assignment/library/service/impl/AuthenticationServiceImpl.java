@@ -47,4 +47,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }  else return -1; // does not exist at all
 
     }
+
+    @Override
+    public String getNameSurname(String email, String password) {
+        UserEntity user;
+
+        user = userRepository.findFirstByEmail(email);
+
+        if (user != null && user.getId() > 0) {
+            user = userRepository.findByEmailAndPassword(email, password);
+
+            if (user != null && user.getId() > 0) {
+                return user.getFirstname() + user.getLastname();
+            }
+        }
+        return null;
+    }
 }

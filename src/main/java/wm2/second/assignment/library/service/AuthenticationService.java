@@ -8,4 +8,6 @@ public interface AuthenticationService {
 
     int login(String email, String password);
 
+    String getNameSurname(String email, String password);
+
 }

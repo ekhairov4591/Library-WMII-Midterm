@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import wm2.second.assignment.library.model.entity.UserEntity;
+import wm2.second.assignment.library.repository.UserRepository;
 import wm2.second.assignment.library.service.AuthenticationService;
 import wm2.second.assignment.library.service.impl.AuthenticationServiceImpl;
 
@@ -34,7 +36,11 @@ public class AuthenticationWSImpl implements AuthenticationWS {
             return ResponseEntity.notFound().build();
         } else if(result == 0){
             return new ResponseEntity(HttpStatus.FORBIDDEN);
-        } else return ResponseEntity.ok("You have been successfully authorized");
+        } else {
+            UserRepository userRepository;
+            return ResponseEntity.ok("You have been successfully authorized "
+                    + authenticationService.getNameSurname(email, password));
+        }
 
     }
 
