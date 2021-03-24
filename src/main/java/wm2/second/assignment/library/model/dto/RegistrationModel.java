@@ -1,4 +1,4 @@
-package wm2.second.assignment.library.model;
+package wm2.second.assignment.library.model.dto;
 
 import java.io.Serializable;
 
@@ -7,15 +7,17 @@ public class RegistrationModel implements Serializable {
     private String firstname;
     private String lastname;
     private String birthday;
+    private String email;
     private String password;
 
     public RegistrationModel() {
     }
 
-    public RegistrationModel(String firstname, String lastname, String birthday, String password) {
+    public RegistrationModel(String firstname, String lastname, String birthday, String email, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthday = birthday;
+        this.birthday = email;
         this.password = password;
     }
 
@@ -43,6 +45,14 @@ public class RegistrationModel implements Serializable {
         this.birthday = birthday;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -57,6 +67,7 @@ public class RegistrationModel implements Serializable {
                 "firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", birthday='" + birthday + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

@@ -1,6 +1,6 @@
 package wm2.second.assignment.library.controller;
 
-import wm2.second.assignment.library.model.RegistrationModel;
+import wm2.second.assignment.library.model.dto.RegistrationModel;
 import org.springframework.http.ResponseEntity;
 
 public interface AuthenticationWS {

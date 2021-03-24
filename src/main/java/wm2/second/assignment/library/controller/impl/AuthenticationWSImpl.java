@@ -1,17 +1,25 @@
 package wm2.second.assignment.library.controller.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import wm2.second.assignment.library.controller.AuthenticationWS;
-import wm2.second.assignment.library.model.RegistrationModel;
+import wm2.second.assignment.library.model.dto.RegistrationModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import wm2.second.assignment.library.service.AuthenticationService;
+import wm2.second.assignment.library.service.impl.AuthenticationServiceImpl;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationWSImpl implements AuthenticationWS {
 
     protected static Logger log = LoggerFactory.getLogger(AuthenticationWSImpl.class);
+
+    //injecting service
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @Override
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -20,7 +28,14 @@ public class AuthenticationWSImpl implements AuthenticationWS {
         log.info("Email :: {}", email);
         log.info("Password :: {}", password);
 
-        return null;
+        int result = authenticationService.login(email, password);
+
+        if(result < 0){
+            return ResponseEntity.notFound().build();
+        } else if(result == 0){
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        } else return ResponseEntity.ok("You have been successfully authorized");
+
     }
 
     @Override
@@ -36,6 +51,12 @@ public class AuthenticationWSImpl implements AuthenticationWS {
     public ResponseEntity registration(
             @RequestBody RegistrationModel formData) {
         log.info(formData.toString());
-        return null;
+
+        // calling registration method
+        if(authenticationService.registration(formData)){
+            return ResponseEntity.created(null).build(); // http 201 success
+        } else {
+            return ResponseEntity.unprocessableEntity().build(); // other failed
+        }
     }
 }
