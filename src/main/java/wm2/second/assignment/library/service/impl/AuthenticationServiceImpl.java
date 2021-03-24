@@ -9,7 +9,6 @@ import wm2.second.assignment.library.model.entity.UserEntity;
 import wm2.second.assignment.library.repository.UserRepository;
 import wm2.second.assignment.library.service.AuthenticationService;
 
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {

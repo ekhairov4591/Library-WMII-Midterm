@@ -7,4 +7,5 @@ public interface AuthenticationService {
     boolean registration(RegistrationModel registrationModel);
 
     int login(String email, String password);
+
 }
