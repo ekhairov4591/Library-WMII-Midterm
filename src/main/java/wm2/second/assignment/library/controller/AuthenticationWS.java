@@ -5,6 +5,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface AuthenticationWS {
     ResponseEntity login(String email, String password);
-    ResponseEntity forgetPassword(String email);
     ResponseEntity registration(RegistrationModel formData);
 }

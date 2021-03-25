@@ -43,7 +43,7 @@ public class AuthenticationWSImpl implements AuthenticationWS {
         }
 
     }
-
+/*
     @Override
     @RequestMapping(value = "/forget", method = RequestMethod.GET)
     public ResponseEntity forgetPassword(
@@ -51,6 +51,8 @@ public class AuthenticationWSImpl implements AuthenticationWS {
         log.info("Email :: {}", email);
         return null;
     }
+    */
+
 
     @Override
     @RequestMapping(value = "", method = RequestMethod.POST)// auth
@@ -59,10 +61,12 @@ public class AuthenticationWSImpl implements AuthenticationWS {
         log.info(formData.toString());
 
         // calling registration method
-        if(authenticationService.registration(formData)){
+        if(authenticationService.registration(formData) == 1){
             return ResponseEntity.created(null).build(); // http 201 success
+        } else if(authenticationService.registration(formData) == -1){
+            return ResponseEntity.ok("User with this email already exists..."); //match
         } else {
-            return ResponseEntity.unprocessableEntity().build(); // other failed
+            return ResponseEntity.unprocessableEntity().build(); // any other error
         }
     }
 }

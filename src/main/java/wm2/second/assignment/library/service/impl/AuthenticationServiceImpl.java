@@ -19,14 +19,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private UserRepository userRepository;
 
     @Override
-    public boolean registration(RegistrationModel registrationModel) {
+    public int registration(RegistrationModel registrationModel) {
+
+        UserEntity user;
+
+        user = userRepository.findFirstByEmail(registrationModel.getEmail());
+        if(user != null) return -1; // -1 if exists
+        logger.info("Email already exists!");
 
         try {
             userRepository.save(new UserEntity(registrationModel));
-            return true;
+            return 1; // if registered successfully
         }catch (Exception e){
             logger.error(e.getMessage());
-            return false;
+            return 0; // if error
         }
     }
 
@@ -52,13 +58,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public String getNameSurname(String email, String password) {
         UserEntity user;
 
-        user = userRepository.findFirstByEmail(email);
+        user = userRepository.findFirstByEmail(email); // finding by Email
 
-        if (user != null && user.getId() > 0) {
+        if (user != null && user.getId() > 0) { // if exists email, finding by matching pass as well
             user = userRepository.findByEmailAndPassword(email, password);
 
-            if (user != null && user.getId() > 0) {
-                return user.getFirstname() + user.getLastname();
+            if (user != null && user.getId() > 0) { // if matched by pass and email, returning name & surname
+                return user.getFirstname() +" " + user.getLastname();
             }
         }
         return null;
