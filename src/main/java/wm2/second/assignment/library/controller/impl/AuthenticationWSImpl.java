@@ -23,6 +23,7 @@ public class AuthenticationWSImpl implements AuthenticationWS {
     @Autowired
     private AuthenticationService authenticationService;
 
+
     @Override
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ResponseEntity login(@RequestHeader("email") String email,
@@ -32,12 +33,13 @@ public class AuthenticationWSImpl implements AuthenticationWS {
 
         int result = authenticationService.login(email, password);
 
-        if(result < 0){
+        if (result < 0) { // no match
             return ResponseEntity.notFound().build();
-        } else if(result == 0){
+        } else if (result == 0) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
-        } else {
-            UserRepository userRepository;
+        } else if (result < 0) { // does not exist at all
+            return (ResponseEntity) ResponseEntity.unprocessableEntity();
+        } else { // if 1 then match
             return ResponseEntity.ok("You have been successfully authorized "
                     + authenticationService.getNameSurname(email, password));
         }
@@ -61,9 +63,9 @@ public class AuthenticationWSImpl implements AuthenticationWS {
         log.info(formData.toString());
 
         // calling registration method
-        if(authenticationService.registration(formData) == 1){
+        if (authenticationService.registration(formData) == 1) {
             return ResponseEntity.created(null).build(); // http 201 success
-        } else if(authenticationService.registration(formData) == -1){
+        } else if (authenticationService.registration(formData) == -1) {
             return ResponseEntity.ok("User with this email already exists..."); //match
         } else {
             return ResponseEntity.unprocessableEntity().build(); // any other error
