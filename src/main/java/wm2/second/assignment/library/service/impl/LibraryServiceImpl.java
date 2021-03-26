@@ -73,7 +73,7 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public List<BookEntity> getBookByAvailable() {
 
-        List<BookEntity> book =  bookRepository.findAllByAvailable("1");
+        List<BookEntity> book =  bookRepository.findAllByAvailable(1);
 
         if(book == null) return null;
         else return book;

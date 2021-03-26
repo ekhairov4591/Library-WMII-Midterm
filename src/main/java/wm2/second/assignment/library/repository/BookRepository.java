@@ -16,5 +16,5 @@ public interface BookRepository extends CrudRepository<BookEntity, Long> {
     List<BookEntity> findAllByDate(String bookname);
 
 
-    List<BookEntity> findAllByAvailable(String available);
+    List<BookEntity> findAllByAvailable(int available);
 }
