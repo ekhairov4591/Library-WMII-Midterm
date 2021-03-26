@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import wm2.second.assignment.library.model.entity.BookEntity;
+import wm2.second.assignment.library.model.entity.UserEntity;
 import wm2.second.assignment.library.service.LibraryService;
 
 import java.util.List;
@@ -26,7 +28,6 @@ public class LibraryWSImpl implements LibraryWS {
 
     @Override
     @RequestMapping(value = "/login/books", method = RequestMethod.GET)
-
     public ResponseEntity getBooksService() {
 
         try {
@@ -39,4 +40,17 @@ public class LibraryWSImpl implements LibraryWS {
         log.info("Failed to Retrieve");
         return ResponseEntity.notFound().build(); // if no books
     }
+
+    @Override
+    @RequestMapping(value = "/login/pickBook", method = RequestMethod.POST)
+    public ResponseEntity pickBookService(@RequestHeader("bookId") Long bookId,
+                                          @RequestHeader("email") String email) {
+
+        BookEntity bookEntity;
+        UserEntity userEntity;
+
+
+        return null;
+    }
+
 }

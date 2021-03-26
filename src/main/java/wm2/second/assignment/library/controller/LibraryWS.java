@@ -9,4 +9,6 @@ import javax.xml.ws.Response;
 public interface LibraryWS {
     ResponseEntity getBooksService();
 
+    ResponseEntity pickBookService(Long bookId, String email);
+
 }

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import wm2.second.assignment.library.model.entity.BookEntity;
 import wm2.second.assignment.library.repository.BookRepositroy;
 import wm2.second.assignment.library.repository.UserRepository;
 import wm2.second.assignment.library.service.LibraryService;
@@ -29,6 +30,12 @@ public class LibraryServiceImpl implements LibraryService {
         if(book == null ) return null;
         else
         return book;
+    }
+
+    @Override
+    public boolean pickBook(BookEntity bookEntity){
+
+        return false;
     }
 
 
