@@ -1,5 +1,6 @@
 package wm2.second.assignment.library.controller.impl;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import wm2.second.assignment.library.controller.LibraryWS;

@@ -1,5 +1,6 @@
 package wm2.second.assignment.library.service.impl;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,23 @@ import wm2.second.assignment.library.service.AuthenticationService;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+    // used to hash password
+    private String hashPassword(String plainTextPassword) {
+        return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
+    }
+
+    // used to validate hashed pass with entered plaintext
+    private boolean checkPass(String plainPassword, String hashedPassword) {
+        if (BCrypt.checkpw(plainPassword, hashedPassword)) {
+            System.out.println("The password matches.");
+            return true;
+        } else {
+            System.out.println("The password does not match.");
+        }
+        return false;
+    }
+
+
     protected static final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 
     @Autowired
@@ -25,9 +43,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         user = userRepository.findFirstByEmail(registrationModel.getEmail());
         if(user != null) return -1; // -1 if exists
-        logger.info("Email already exists!");
+        //logger.info("Email already exists!");
 
         try {
+            // hashing
+            registrationModel.setPassword(hashPassword(registrationModel.getPassword()));
             userRepository.save(new UserEntity(registrationModel));
             return 1; // if registered successfully
         }catch (Exception e){
@@ -40,12 +60,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public int login(String email, String password) {
         UserEntity user;
 
-        user = userRepository.findFirstByEmail(email);
+
+       user =  userRepository.findFirstByEmail(email);
+
 
         if(user != null && user.getId() > 0){
-            user = userRepository.findByEmailAndPassword(email, password);
 
-            if(user != null && user.getId() > 0) {
+            if(checkPass(password, user.getPassword())) {
                 return 1; // match
 
             } else return 0; // no match
@@ -61,10 +82,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user = userRepository.findFirstByEmail(email); // finding by Email
 
         if (user != null && user.getId() > 0) { // if exists email, finding by matching pass as well
-            user = userRepository.findByEmailAndPassword(email, password);
 
-            if (user != null && user.getId() > 0) { // if matched by pass and email, returning name & surname
-                return user.getFirstname() +" " + user.getLastname();
+            if(checkPass(password, user.getPassword())){
+                return user.getFirstname() + " " + user.getLastname();
             }
         }
         return null;
