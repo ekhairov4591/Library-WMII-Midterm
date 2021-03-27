@@ -12,4 +12,4 @@ jobs:
       - run: mvn clean package
 
       # build and push docker image to docker hub
-      - run: mvn clean compile jib:build -Djib.to.auth.username=$DOCKER_USER -Djib.to.auth.password=$DOCKER_PASS -Dimage=ekhairov4591/ekhairov4591/wmii_midterm:$CIRCLE_BUILD_NUM
+      - run: mvn clean compile jib:build -Djib.to.auth.username=$DOCKER_USER -Djib.to.auth.password=$DOCKER_PASS -Dimage=ekhairov4591/wmii_midterm:$CIRCLE_BUILD_NUM
